@@ -1,0 +1,97 @@
+#!/usr/bin/env python 
+"""Generate a new changelog entry.
+
+Usage
+=====
+
+To generate a new changelog entry::
+
+    scripts/new-change
+
+This will open up a file in your editor (via the ''EDITOR'' env var).
+You'll see this template::
+
+    # Type should be one of: feature, bugfix
+    type:
+
+    # Category is the high level feature area.
+    # This can be a service identifier (e.g ``s3``),
+    # or something like: Paginator.
+    category:
+    # A brief description of the change.  You can
+    # use github style references to issues such as
+    # "fixes #489", "boto/boto3#100", etc.  These
+    # will get automatically replaced with the correct
+    # link.
+    description:
+
+Fill in the appropriate values, save and exit the editor.
+Make sure to commit these changes as part of your pull request.
+
+If, when your editor is open, you decide don't don't want to add a changelog
+entry, save an empty file and no entry will be generated.
+
+You can then use the ``scripts/render-change`` to generate the
+CHANGELOG.rst file.
+
+"""
+
+import os 
+import re
+import sys
+import json
+import string
+import random 
+import tempfile
+import subprocess
+import argparse
+
+
+VALID_CHARS = set(string.ascii_letters + string.digits)
+CHANGES_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    '.changes'
+)
+TEMPLATE = """\
+# Type should be one of: feature, bugfix, enhancement, api-change
+# feature: A larger feature or change in behavior, usually resulting in a 
+#          minor version bump.
+# bugfix: Fixing a bug in an existing code path.
+# enhancment: Small change to an underlying implementation detail.
+# api-change: Changes to a modeled API.
+type: {change_type}
+
+# Category is the high level feature area.
+# This can be a service identifier (e.g ''s3''), 
+# or something like: Paginator.
+category: {category}
+
+# A brief description of the change. You can 
+# use github style references to issues such as 
+# "fixes #489", "boto/boto3#100", etc. These
+# will get automatically replaced with the correct
+# link.
+description: {description}
+"""
+
+
+def new_changelog_entry(args):
+    # Changelog values come from one of two places.
+    # Either all calues are provided on the command line,
+    # or we open a text editor and let the user provied
+    # enter their values.
+    if all_values_provided(args):
+        parsed_values = {
+            'type': args.change_type,
+            'category': args.category,
+            'description: args.description,
+        }
+        else: 
+            parsed_values = get_values_from_editor(args)
+        if has_empty_values(parsed_values):
+            sys.stderr.write(
+                "Empty changelog values received, skipping entry creation.\n")
+                return 1
+            replace_issue_references(parsed_values, args.repo)
+            write_new_change(parsed_values)
+            return 0 

@@ -95,3 +95,13 @@ def new_changelog_entry(args):
             replace_issue_references(parsed_values, args.repo)
             write_new_change(parsed_values)
             return 0 
+
+
+def has_empty_values(parsed_values):
+    return not (
+        parsed_values.get('type') and
+        parsed_values.get('category') and
+        parsed_values.get('description')
+    )
+
+

@@ -8,3 +8,11 @@
 #
 # or in the "license" file accompanying this file. This file is
 # distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+# ANY KIND, either express or implied. See the License for the specific
+# language governing permissions and limitations under the License
+import mock
+
+from prompt_toolkit.input import PipeInput
+from prompt_toolkit.output import DummyOutput
+from prompt_toolkit.key_binding.input_processor import KeyPress
+from prompt_toolkit.keys import Keys

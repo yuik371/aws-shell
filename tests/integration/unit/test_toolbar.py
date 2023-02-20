@@ -17,7 +17,6 @@ from pygments.token import Token
 from awsshell.app import AWSShell
 from awsshell.toolbar import Toolbar
 
-
 class ToolbarTest(unittest.TestCase):
 
     def setUp(self):

@@ -167,3 +167,16 @@ def test_autocompletes_argument_names_substring(index_data):
     # These should only appear once in the output. So we need
     # to know if we're a top level argument or not.
     assert complter.autocomplete('--f') == ['--foo']
+
+
+def test_autocompletes_global_and_service_args(index_data):
+    index_data['aws']['arguments'] = ['--query', '--debug']
+    index_data['aws']['commands'] = ['ec2']
+    index_data['aws']['children'] = {
+        'ec2': {
+            'arguments': ['--query-ec2', '--instance-id'],
+            'commands': [],
+            'children': {},
+        }
+    }
+    completer = AWSCLIModelCompleter(index_data)

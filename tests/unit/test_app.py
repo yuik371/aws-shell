@@ -1,7 +1,6 @@
 import pytest
 import mock
 
-
 from awsshell import app
 from awsshell import shellcomplete
 from awsshell import compat

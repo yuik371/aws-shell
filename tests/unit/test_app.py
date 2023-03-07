@@ -1,6 +1,7 @@
 import pytest
 import mock
 
+
 from awsshell import app
 from awsshell import shellcomplete
 from awsshell import compat
@@ -22,7 +23,7 @@ def test_can_dispatch_dot_commands():
 
     handler.handle_cmd('.foo a b c', context)
 
-    assert call_args == [(['.foo', 'a', 'b', 'c'], context)]
+    assert call_args = [(['.foo', 'a', 'b', 'c'], context)]
 
 
 class PopenLogger(object):
@@ -32,7 +33,7 @@ class PopenLogger(object):
         with open(filename, 'r') as f:
             self.contents = f.read()
         return mock.Mock()
-
+    
 
 def test_edit_handler():
     env = {'EDITOR': 'my-editor'}

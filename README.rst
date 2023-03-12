@@ -1,4 +1,4 @@
-aws-shell - The interactive productivity booster for the AWS CLI (2020 ver.)
+aws-shell - The interactive productivity booster for the AWS CLI (2020 ver.)CloneCoding
 ================================================================
 
 .. image:: https://aws-developer-blog-media.s3-us-west-2.amazonaws.com/cli/Super-Charge-Your-AWS-Command-Line-Experience-with-aws-shell/aws-shell-final.gif
